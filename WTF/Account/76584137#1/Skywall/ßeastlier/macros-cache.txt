@@ -1,0 +1,24 @@
+VER 3 0100000000000008 "Bear Hug" "SPELL_DRUID_BEARHUG"
+/showtool tip Bear Hug
+/hug
+/y BEAR HUG!!
+END
+VER 3 0100000000000003 "Buff Rider" "ABILITY_DRUID_MARKOFURSOL"
+/Showtooltip #Red Shado-Pan Riding Tiger
+/Cast Mark of the Wild
+/Cast Black War Tiger
+END
+VER 3 0100000000000006 "FSkullbash" "INV_MISC_QUESTIONMARK"
+#show Skull Bash
+/cast [@focus] Skull Bash
+END
+VER 3 0100000000000004 "Spock" "ABILITY_HUNTER_ONEWITHNATURE"
+/cast Druid and Priest Statue Set
+/cast Hearthstone
+END
+VER 3 0100000000000001 "VuhDoDCShieldData" "Ability_Repair"
+P[x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x]1DT[x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x]
+END
+VER 3 0100000000000002 "VuhDoDCShieldNames" "Ability_Repair"
+N[x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x]ßea[x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x]
+END

@@ -1,0 +1,106 @@
+
+IceCoreDB = {
+	["namespaces"] = {
+		["LibDualSpec-1.0"] = {
+		},
+	},
+	["profileKeys"] = {
+		["Sneakyboots - Blackhand"] = "Default",
+	},
+	["global"] = {
+		["lastRunVersion"] = 20181003132158,
+	},
+	["profiles"] = {
+		["Default"] = {
+			["modules"] = {
+				["TargetCast"] = {
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+					["myTagVersion"] = 3,
+				},
+				["PetHealth"] = {
+					["updatedInverseExpand"] = true,
+					["myTagVersion"] = 3,
+					["updatedReverseInverse"] = true,
+				},
+				["PlayerHealth"] = {
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+					["myTagVersion"] = 3,
+				},
+				["ComboPointsBar"] = {
+					["enabled"] = true,
+					["myTagVersion"] = 3,
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+				},
+				["PlayerAbsorb"] = {
+					["myTagVersion"] = 3,
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+				},
+				["PlayerAlternatePower"] = {
+					["myTagVersion"] = 3,
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+				},
+				["TargetInfo"] = {
+					["debuffSizeFixup"] = true,
+					["myTagVersion"] = 3,
+					["updateAurasIntoTable"] = true,
+				},
+				["TargetAbsorb"] = {
+					["myTagVersion"] = 3,
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+				},
+				["SunderCount"] = {
+				},
+				["CastBar"] = {
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+					["myTagVersion"] = 3,
+				},
+				["TargetHealth"] = {
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+					["myTagVersion"] = 3,
+				},
+				["FocusAbsorb"] = {
+					["myTagVersion"] = 3,
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+				},
+				["PetMana"] = {
+					["myTagVersion"] = 3,
+					["updatedInverseExpand"] = true,
+					["updatedReverseInverse"] = true,
+				},
+				["LacerateCount"] = {
+				},
+				["TargetMana"] = {
+					["updatedInverseExpand"] = true,
+					["myTagVersion"] = 3,
+					["updatedReverseInverse"] = true,
+				},
+				["MaelstromCount"] = {
+				},
+				["PlayerMana"] = {
+					["updatedInverseExpand"] = true,
+					["myTagVersion"] = 3,
+					["updatedReverseInverse"] = true,
+				},
+			},
+			["updatedOocNotFull"] = true,
+			["colors"] = {
+				["ScaledManaColor"] = {
+					["r"] = 1,
+				},
+				["ScaledHealthColor"] = {
+					["g"] = 0,
+					["r"] = 1,
+				},
+			},
+		},
+	},
+}

@@ -1,0 +1,4 @@
+VER 3 0100000000000001 "Rabbits" "132089"
+/cast Stealth
+/s Shhhhhh I'm hunting wabbits
+END

@@ -1,0 +1,4 @@
+VER 3 0100000000000001 "Auto Cast Enemy" "SPELL_FIRE_FLAMEBOLT"
+/target enemy
+/cast Fireball
+END
