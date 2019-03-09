@@ -46,7 +46,7 @@ end
 -- ============================================================================
 
 function private.CreateMainFrame()
-	TSM.Analytics.PageView("destroying")
+	TSM.UI.AnalyticsRecordPathChange("destroying")
 	private.query = private.query or TSM.Destroying.CreateBagQuery()
 	private.query:ResetOrderBy()
 	private.query:OrderBy("name", true)
@@ -135,6 +135,7 @@ end
 -- ============================================================================
 
 function private.FrameOnHide(frame)
+	TSM.UI.AnalyticsRecordClose("destroying")
 	private.fsm:ProcessEvent("EV_FRAME_TOGGLE")
 end
 
@@ -183,7 +184,7 @@ function private.FSMCreate()
 		didShowOnce = false,
 		didAutoCombine = false,
 	}
-	local function UpdateDestroyingFrame(context)
+	local function UpdateDestroyingFrame(context, redraw)
 		if not context.frame then
 			return
 		end
@@ -194,7 +195,9 @@ function private.FSMCreate()
 		local destroyBtn = context.frame:GetElement("content.destroyBtn")
 		destroyBtn:SetText(context.destroyThread and L["Destroying..."] or L["Destroy Next"])
 		destroyBtn:SetDisabled(context.combineThread or context.destroyThread or private.query:Count() == 0)
-		context.frame:Draw()
+		if redraw then
+			context.frame:Draw()
+		end
 	end
 	private.fsm = TSMAPI_FOUR.FSM.New("DESTROYING")
 		:AddState(TSMAPI_FOUR.FSM.NewState("ST_FRAME_CLOSED")
@@ -233,7 +236,7 @@ function private.FSMCreate()
 		)
 		:AddState(TSMAPI_FOUR.FSM.NewState("ST_FRAME_OPEN")
 			:SetOnEnter(function(context)
-				UpdateDestroyingFrame(context)
+				UpdateDestroyingFrame(context, true)
 				if TSM.db.global.destroyingOptions.autoStack and not context.didAutoCombine and TSM.Destroying.CanCombine() then
 					context.didAutoCombine = true
 					context.frame:GetElement("content.combineBtn")

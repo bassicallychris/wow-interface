@@ -66,7 +66,7 @@ end
 -- ============================================================================
 
 function private.GetSendFrame()
-	TSM.Analytics.PageView("mailing/send")
+	TSM.UI.AnalyticsRecordPathChange("mailing", "send")
 	local frame = TSMAPI_FOUR.UI.NewElement("Frame", "send")
 		:SetLayout("VERTICAL")
 		:AddChild(TSMAPI_FOUR.UI.NewElement("Frame", "container")
@@ -530,9 +530,7 @@ end
 
 function private.SendFrameOnUpdate(frame)
 	frame:SetScript("OnUpdate", nil)
-	local baseFrame = frame:GetBaseElement()
-	baseFrame:SetStyle("bottomPadding", 36)
-	baseFrame:Draw()
+	frame:GetBaseElement():SetBottomPadding(36)
 
 	private.fsm:ProcessEvent("EV_FRAME_SHOW", frame)
 end
@@ -791,7 +789,8 @@ end
 
 function private.MoneyValueConvert(input)
 	local text = gsub(strtrim(input:GetText()), TSMAPI_FOUR.Util.StrEscape(LARGE_NUMBER_SEPERATOR), "")
-	local value = tonumber(text) or TSM.Money.FromString(text) or 0
+	local value = max(tonumber(text) or TSM.Money.FromString(text) or 0, 0)
+
 	private.money = private.isCOD and min(value, 100000000) or value
 
 	input:SetFocused(false)
@@ -813,6 +812,7 @@ function private.SendMail(button)
 		money = private.money * -1
 	end
 
+	button:GetElement("__parent.__parent.container.name.input"):SetFocused(false)
 	private.UpdateRecentlyMailed(private.recipient)
 
 	if private.query:Count() > 0 then

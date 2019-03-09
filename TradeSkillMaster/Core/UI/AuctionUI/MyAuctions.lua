@@ -35,7 +35,7 @@ end
 -- ============================================================================
 
 function private.GetMyAuctionsFrame()
-	TSM.Analytics.PageView("auction/my_auctions")
+	TSM.UI.AnalyticsRecordPathChange("auction", "my_auctions")
 	private.query = private.query or TSM.MyAuctions.CreateQuery()
 	local frame = TSMAPI_FOUR.UI.NewElement("Frame", "myAuctions")
 		:SetLayout("VERTICAL")
@@ -248,18 +248,14 @@ end
 
 function private.FrameOnUpdate(frame)
 	frame:SetScript("OnUpdate", nil)
-	local baseFrame = frame:GetBaseElement()
-	baseFrame:SetStyle("bottomPadding", 38)
-	baseFrame:Draw()
+	frame:GetBaseElement():SetBottomPadding(38)
 	private.fsm:ProcessEvent("EV_FRAME_SHOWN", frame)
 end
 
 function private.FrameOnHide(frame)
 	assert(frame == private.frame)
 	private.frame = nil
-	local baseFrame = frame:GetBaseElement()
-	baseFrame:SetStyle("bottomPadding", nil)
-	baseFrame:Draw()
+	frame:GetBaseElement():SetBottomPadding(nil)
 	private.fsm:ProcessEvent("EV_FRAME_HIDDEN")
 end
 

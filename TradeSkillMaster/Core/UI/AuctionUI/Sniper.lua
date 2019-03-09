@@ -30,7 +30,7 @@ end
 -- ============================================================================
 
 function private.GetSniperFrame()
-	TSM.Analytics.PageView("auction/sniper")
+	TSM.UI.AnalyticsRecordPathChange("auction", "sniper")
 	if not private.hasLastScan then
 		private.contentPath = "selection"
 	end
@@ -53,6 +53,7 @@ function private.GetSniperContentFrame(viewContainer, path)
 end
 
 function private.GetSelectionFrame()
+	TSM.UI.AnalyticsRecordPathChange("auction", "sniper", "selection")
 	local frame = TSMAPI_FOUR.UI.NewElement("Frame", "selection")
 		:SetLayout("VERTICAL")
 		:SetStyle("background", "#272727")
@@ -98,6 +99,7 @@ function private.GetSelectionFrame()
 end
 
 function private.GetScanFrame()
+	TSM.UI.AnalyticsRecordPathChange("auction", "sniper", "scan")
 	return TSMAPI_FOUR.UI.NewElement("Frame", "scan")
 		:SetLayout("VERTICAL")
 		:SetStyle("background", "#272727")
@@ -190,9 +192,7 @@ end
 
 function private.SelectionFrameOnUpdate(frame)
 	frame:SetScript("OnUpdate", nil)
-	local baseFrame = frame:GetBaseElement()
-	baseFrame:SetStyle("bottomPadding", nil)
-	baseFrame:Draw()
+	frame:GetBaseElement():SetBottomPadding(nil)
 end
 
 function private.SelectionFrameOnHide(frame)
@@ -259,9 +259,7 @@ end
 
 function private.ScanFrameOnUpdate(frame)
 	frame:SetScript("OnUpdate", nil)
-	local baseFrame = frame:GetBaseElement()
-	baseFrame:SetStyle("bottomPadding", 38)
-	baseFrame:Draw()
+	frame:GetBaseElement():SetBottomPadding(38)
 	private.fsm:ProcessEvent("EV_SCAN_FRAME_SHOWN", frame)
 end
 

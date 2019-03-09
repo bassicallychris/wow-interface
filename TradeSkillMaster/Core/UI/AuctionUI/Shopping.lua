@@ -87,7 +87,7 @@ end
 -- ============================================================================
 
 function private.GetShoppingFrame()
-	TSM.Analytics.PageView("auction/shopping")
+	TSM.UI.AnalyticsRecordPathChange("auction", "shopping")
 	if not private.hasLastScan then
 		private.contentPath = "selection"
 	end
@@ -116,6 +116,7 @@ function private.GetShoppingContentFrame(viewContainer, path)
 end
 
 function private.GetSelectionFrame()
+	TSM.UI.AnalyticsRecordPathChange("auction", "shopping", "selection")
 	local frame = TSMAPI_FOUR.UI.NewElement("DividedContainer", "selection")
 		:SetStyle("background", "#272727")
 		:SetContextTable(private.dividedContainerContext, DEFAULT_DIVIDED_CONTAINER_CONTEXT)
@@ -167,9 +168,15 @@ function private.GetSelectionFrame()
 			:AddPath("search", true)
 			:AddPath("advanced")
 		)
-	local noGroupSelected = frame:GetElement("groupSelection.groupTree"):IsSelectionCleared(true)
-	frame:GetElement("groupSelection.scanBtn"):SetDisabled(noGroupSelected)
+		:SetScript("OnUpdate", private.SelectionFrameOnUpdate)
+
 	return frame
+end
+
+function private.SelectionFrameOnUpdate(frame)
+	frame:SetScript("OnUpdate", nil)
+	frame:GetBaseElement():SetBottomPadding(nil)
+	frame:GetElement("groupSelection.scanBtn"):SetDisabled(frame:GetElement("groupSelection.groupTree"):IsSelectionCleared(true))
 end
 
 function private.GetSelectionContent(viewContainer, path)
@@ -536,6 +543,7 @@ function private.GetSearchesElement(self, button)
 end
 
 function private.GetScanFrame()
+	TSM.UI.AnalyticsRecordPathChange("auction", "shopping", "scan")
 	return TSMAPI_FOUR.UI.NewElement("Frame", "scan")
 		:SetLayout("VERTICAL")
 		:SetStyle("background", "#272727")
@@ -1483,9 +1491,6 @@ function private.DisenchantButtonOnClick(button)
 end
 
 function private.ScanBackButtonOnClick(button)
-	local baseFrame = button:GetBaseElement()
-	baseFrame:SetStyle("bottomPadding", nil)
-	baseFrame:Draw()
 	button:GetParentElement():GetParentElement():GetParentElement():SetPath("selection", true)
 	private.fsm:ProcessEvent("EV_SCAN_BACK_BUTTON_CLICKED")
 end
@@ -1504,9 +1509,7 @@ end
 
 function private.ScanFrameOnUpdate(frame)
 	frame:SetScript("OnUpdate", nil)
-	local baseFrame = frame:GetBaseElement()
-	baseFrame:SetStyle("bottomPadding", 38)
-	baseFrame:Draw()
+	frame:GetBaseElement():SetBottomPadding(38)
 	private.fsm:ProcessEvent("EV_SCAN_FRAME_SHOWN", frame)
 end
 
