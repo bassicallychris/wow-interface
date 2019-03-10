@@ -1,4 +1,0 @@
-MACRO 16777217 "Auto Cast Enemy" "SPELL_FIRE_FLAMEBOLT"
-/target enemy
-/cast Fireball
-END
