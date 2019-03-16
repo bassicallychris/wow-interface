@@ -38,6 +38,10 @@ local CHARACTER_SPECIFIC_KEYBINDINGS = CHARACTER_SPECIFIC_KEYBINDINGS
 local bind = CreateFrame("Frame", "ElvUI_KeyBinder", E.UIParent);
 
 function AB:ActivateBindMode()
+	if InCombatLockdown() then
+		return
+	end
+
 	bind.active = true;
 	E:StaticPopupSpecial_Show(ElvUIBindPopupWindow)
 	AB:RegisterEvent('PLAYER_REGEN_DISABLED', 'DeactivateBindMode', false);
@@ -51,6 +55,7 @@ function AB:DeactivateBindMode(save)
 		LoadBindings(GetCurrentBindingSet());
 		E:Print(L["Binds Discarded"]);
 	end
+
 	bind.active = false;
 	self:BindHide();
 	self:UnregisterEvent("PLAYER_REGEN_DISABLED");
@@ -406,7 +411,7 @@ function AB:LoadKeyBinder()
 	f:Hide()
 
 	local header = CreateFrame('Button', nil, f)
-	header:SetTemplate('Default', true)
+	header:SetTemplate(nil, true)
 	header:Width(100); header:Height(25)
 	header:Point("CENTER", f, 'TOP')
 	header:SetFrameLevel(header:GetFrameLevel() + 2)

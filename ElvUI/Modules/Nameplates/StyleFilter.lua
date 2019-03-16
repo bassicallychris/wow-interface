@@ -21,7 +21,6 @@ local UnitGUID = UnitGUID
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
 local UnitIsQuestBoss = UnitIsQuestBoss
-local UnitIsUnit = UnitIsUnit
 local UnitLevel = UnitLevel
 local UnitName = UnitName
 local UnitPower = UnitPower
@@ -120,6 +119,10 @@ function mod:StyleFilterCooldownCheck(names, mustHaveAll)
 	end
 end
 
+function mod:StyleFilterOnFinishedFlashAnim(requested)
+	if self and not requested then self:Play() end
+end
+
 function mod:StyleFilterSetUpFlashAnim(FlashTexture)
 	FlashTexture.anim = FlashTexture:CreateAnimationGroup("Flash")
 	FlashTexture.anim.fadein = FlashTexture.anim:CreateAnimation("ALPHA", "FadeIn")
@@ -132,9 +135,7 @@ function mod:StyleFilterSetUpFlashAnim(FlashTexture)
 	FlashTexture.anim.fadeout:SetToAlpha(0)
 	FlashTexture.anim.fadeout:SetOrder(1)
 
-	FlashTexture.anim:SetScript("OnFinished", function(flash, requested)
-		if not requested then flash:Play() end
-	end)
+	FlashTexture.anim:SetScript("OnFinished", mod.StyleFilterOnFinishedFlashAnim)
 end
 
 function mod:StyleFilterBorderColorLock(backdrop, switch)
@@ -147,16 +148,15 @@ end
 
 function mod:StyleFilterSetChanges(frame, actions, HealthColorChanged, PowerColorChanged, BorderChanged, FlashingHealth, TextureChanged, ScaleChanged, AlphaChanged, NameColorChanged, PortraitShown, NameOnlyChanged, VisibilityChanged)
 	if VisibilityChanged then
-		--[[
 		frame.StyleChanged = true
 		frame.VisibilityChanged = true
-		frame:Hide()
+		frame:ClearAllPoints()
+		frame:Point('TOP', E.UIParent, 'BOTTOM', 0, -500)
 		return --We hide it. Lets not do other things (no point)
-		]]
 	end
 	if HealthColorChanged then
 		frame.StyleChanged = true
-		frame.HealthColorChanged = true
+		frame.HealthColorChanged = actions.color.healthColor
 		frame.Health:SetStatusBarColor(actions.color.healthColor.r, actions.color.healthColor.g, actions.color.healthColor.b, actions.color.healthColor.a);
 		if frame.CutawayHealth then
 			frame.CutawayHealth:SetStatusBarColor(actions.color.healthColor.r * 1.5, actions.color.healthColor.g * 1.5, actions.color.healthColor.b * 1.5, actions.color.healthColor.a);
@@ -215,7 +215,7 @@ function mod:StyleFilterSetChanges(frame, actions, HealthColorChanged, PowerColo
 	if AlphaChanged then
 		frame.StyleChanged = true
 		frame.AlphaChanged = true
-		frame:SetAlpha(actions.alpha / 100)
+		E:UIFrameFadeIn(frame, 0, 0, actions.alpha / 100)
 	end
 	if NameColorChanged then
 		frame.StyleChanged = true
@@ -266,7 +266,8 @@ function mod:StyleFilterClearChanges(frame, HealthColorChanged, PowerColorChange
 	frame.StyleChanged = nil
 	if VisibilityChanged then
 		frame.VisibilityChanged = nil
-		frame:Show()
+		frame:ClearAllPoints()
+		frame:Point('CENTER')
 	end
 	if HealthColorChanged then
 		frame.HealthColorChanged = nil
@@ -311,15 +312,12 @@ function mod:StyleFilterClearChanges(frame, HealthColorChanged, PowerColorChange
 	end
 	if AlphaChanged then
 		frame.AlphaChanged = nil
-		if frame.isTarget then
-			frame:SetAlpha(1)
-		elseif not UnitIsUnit(frame.unit, "player") then
-			frame:SetAlpha(1 - self.db.nonTargetTransparency)
-		end
+		mod:HandleTargetAlpha(frame)
 	end
 	if NameColorChanged then
 		frame.NameColorChanged = nil
 		frame.Name:UpdateTag()
+		frame.Name:SetTextColor(1, 1, 1, 1)
 	end
 	if PortraitShown then
 		frame.PortraitShown = nil
@@ -343,12 +341,12 @@ function mod:StyleFilterClearChanges(frame, HealthColorChanged, PowerColorChange
 			self:ConfigureElement_Name(frame)
 			self:UpdateElement_Name(frame)
 		else
-			frame.Name:SetText("")
+			frame.Name:SetText('')
 		end
 		if self.db.showNPCTitles then
 			self:UpdateElement_NPCTitle(frame)
 		else
-			frame.NPCTitle:SetText("")
+			frame.NPCTitle:SetText('')
 		end
 		if self.db.units[frame.frameType].portrait.enable then
 			self:ConfigureElement_Portrait(frame)
@@ -732,7 +730,7 @@ function mod:StyleFilterPass(frame, actions)
 end
 
 function mod:ClearStyledPlate(frame)
-	if frame.StyleChanged then
+	if frame and frame.StyleChanged then
 		self:StyleFilterClearChanges(frame, frame.HealthColorChanged, frame.PowerColorChanged, frame.BorderChanged, frame.FlashingHealth, frame.TextureChanged, frame.ScaleChanged, frame.AlphaChanged, frame.NameColorChanged, frame.PortraitShown, frame.NameOnlyChanged, frame.VisibilityChanged)
 	end
 end

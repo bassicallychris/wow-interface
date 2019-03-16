@@ -12,7 +12,7 @@ local _G = _G
 local tonumber, pairs, ipairs, error, unpack, select, tostring = tonumber, pairs, ipairs, error, unpack, select, tostring
 local assert, type, pcall, date = assert, type, pcall, date
 local twipe, tinsert, tremove, next = wipe, tinsert, tremove, next
-local floor, gsub, strmatch, strjoin = floor, gsub, match, strjoin
+local gsub, strmatch, strjoin = gsub, match, strjoin
 local format, find, strrep, len, sub = format, strfind, strrep, strlen, strsub
 --WoW API / Variables
 local CreateFrame = CreateFrame
@@ -205,14 +205,33 @@ function E:GetPlayerRole()
 	return assignedRole
 end
 
+function E:GrabColorPickerValues(r, g, b)
+	_G.ColorPickerFrame.ignoreUpdates = true
+
+	-- grab old values
+	local oldR, oldG, oldB = _G.ColorPickerFrame:GetColorRGB()
+
+	-- set and define the new values
+	_G.ColorPickerFrame:SetColorRGB(r, g, b)
+	r, g, b = _G.ColorPickerFrame:GetColorRGB()
+
+	-- swap back to the old values
+	if oldR then _G.ColorPickerFrame:SetColorRGB(oldR, oldG, oldB) end
+
+	_G.ColorPickerFrame.ignoreUpdates = nil
+
+	return r, g, b
+end
+
 --Basically check if another class border is being used on a class that doesn't match. And then return true if a match is found.
 function E:CheckClassColor(r, g, b)
-	r, g, b = floor(r*100+.5)/100, floor(g*100+.5)/100, floor(b*100+.5)/100
+	r, g, b = E:GrabColorPickerValues(r, g, b)
 	local matchFound = false
 	for class in pairs(RAID_CLASS_COLORS) do
 		if class ~= E.myclass then
 			local colorTable = class == 'PRIEST' and E.PriestColors or (_G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class])
-			if colorTable.r == r and colorTable.g == g and colorTable.b == b then
+			local red, green, blue = E:GrabColorPickerValues(colorTable.r, colorTable.g, colorTable.b)
+			if red == r and green == g and blue == b then
 				matchFound = true
 			end
 		end
@@ -321,14 +340,13 @@ function E:UpdateMedia()
 	self.media.hexvaluecolor = self:RGBToHex(value.r, value.g, value.b)
 	self.media.rgbvaluecolor = {value.r, value.g, value.b}
 
-	local LeftChatPanel = _G.LeftChatPanel
-	local RightChatPanel = _G.RightChatPanel
+	local LeftChatPanel, RightChatPanel = _G.LeftChatPanel, _G.RightChatPanel
 	if LeftChatPanel and LeftChatPanel.tex and RightChatPanel and RightChatPanel.tex then
 		LeftChatPanel.tex:SetTexture(E.db.chat.panelBackdropNameLeft)
+		RightChatPanel.tex:SetTexture(E.db.chat.panelBackdropNameRight)
+
 		local a = E.db.general.backdropfadecolor.a or 0.5
 		LeftChatPanel.tex:SetAlpha(a)
-
-		RightChatPanel.tex:SetTexture(E.db.chat.panelBackdropNameRight)
 		RightChatPanel.tex:SetAlpha(a)
 	end
 
@@ -462,7 +480,7 @@ function E:UpdateFrameTemplates()
 	for frame in pairs(self.frames) do
 		if frame and frame.template and not frame.ignoreUpdates then
 			if not frame.ignoreFrameTemplates then
-				frame:SetTemplate(frame.template, frame.glossTex)
+				frame:SetTemplate(frame.template, frame.glossTex, nil, frame.forcePixelMode)
 			end
 		else
 			self.frames[frame] = nil
@@ -472,7 +490,7 @@ function E:UpdateFrameTemplates()
 	for frame in pairs(self.unitFrameElements) do
 		if frame and frame.template and not frame.ignoreUpdates then
 			if not frame.ignoreFrameTemplates then
-				frame:SetTemplate(frame.template, frame.glossTex)
+				frame:SetTemplate(frame.template, frame.glossTex, nil, frame.forcePixelMode, frame.isUnitFrameElement)
 			end
 		else
 			self.unitFrameElements[frame] = nil
@@ -482,9 +500,9 @@ end
 
 function E:UpdateBorderColors()
 	for frame in pairs(self.frames) do
-		if frame and not frame.ignoreUpdates then
+		if frame and frame.template and not frame.ignoreUpdates then
 			if not frame.ignoreBorderColors then
-				if frame.template == 'Default' or frame.template == 'Transparent' or frame.template == nil then
+				if frame.template == 'Default' or frame.template == 'Transparent' then
 					frame:SetBackdropBorderColor(unpack(self.media.bordercolor))
 				end
 			end
@@ -494,9 +512,9 @@ function E:UpdateBorderColors()
 	end
 
 	for frame in pairs(self.unitFrameElements) do
-		if frame and not frame.ignoreUpdates then
+		if frame and frame.template and not frame.ignoreUpdates then
 			if not frame.ignoreBorderColors then
-				if frame.template == 'Default' or frame.template == 'Transparent' or frame.template == nil then
+				if frame.template == 'Default' or frame.template == 'Transparent' then
 					frame:SetBackdropBorderColor(unpack(self.media.unitframeBorderColor))
 				end
 			end
@@ -508,9 +526,9 @@ end
 
 function E:UpdateBackdropColors()
 	for frame in pairs(self.frames) do
-		if frame then
+		if frame and frame.template and not frame.ignoreUpdates then
 			if not frame.ignoreBackdropColors then
-				if frame.template == 'Default' or frame.template == nil then
+				if frame.template == 'Default' then
 					frame:SetBackdropColor(unpack(self.media.backdropcolor))
 				elseif frame.template == 'Transparent' then
 					frame:SetBackdropColor(unpack(self.media.backdropfadecolor))
@@ -522,9 +540,9 @@ function E:UpdateBackdropColors()
 	end
 
 	for frame in pairs(self.unitFrameElements) do
-		if frame then
+		if frame and frame.template and not frame.ignoreUpdates then
 			if not frame.ignoreBackdropColors then
-				if frame.template == 'Default' or frame.template == nil then
+				if frame.template == 'Default' then
 					frame:SetBackdropColor(unpack(self.media.backdropcolor))
 				elseif frame.template == 'Transparent' then
 					frame:SetBackdropColor(unpack(self.media.backdropfadecolor))
@@ -963,8 +981,10 @@ local function SendRecieve(_, event, prefix, message, _, sender)
 		if sender == myName then return end
 		if prefix == 'ELVUI_VERSIONCHK' then
 			local msg, ver = tonumber(message), tonumber(E.version)
+			local inCombat = InCombatLockdown()
+
 			if ver ~= G.general.version then
-				if not E.shownUpdatedWhileRunningPopup then
+				if not E.shownUpdatedWhileRunningPopup and not inCombat then
 					E:StaticPopup_Show('ELVUI_UPDATED_WHILE_RUNNING', nil, nil, {mismatch = ver > G.general.version})
 
 					E.shownUpdatedWhileRunningPopup = true
@@ -973,7 +993,7 @@ local function SendRecieve(_, event, prefix, message, _, sender)
 				if not E.recievedOutOfDateMessage then
 					E:Print(L["ElvUI is out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"])
 
-					if msg and ((msg - ver) >= 0.05) then
+					if msg and ((msg - ver) >= 0.05) and not inCombat then
 						E:StaticPopup_Show('ELVUI_UPDATE_AVAILABLE')
 					end
 
@@ -1030,13 +1050,18 @@ f:SetScript('OnUpdate', function(self, elapsed)
 	end
 end)
 
-function E:UpdateStart()
-	E:UpdateDB()
+function E:UpdateStart(skipCallback, skipUpdateDB)
+	if not skipUpdateDB then
+		E:UpdateDB()
+	end
+
 	E:UpdateMoverPositions()
 	E:UpdateMediaItems()
 	E:UpdateUnitFrames()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
 function E:UpdateDB()
@@ -1081,27 +1106,29 @@ function E:UpdateUnitFrames()
 	--Not part of staggered update
 end
 
-function E:UpdateMediaItems()
+function E:UpdateMediaItems(skipCallback)
 	E:UpdateMedia()
-	E:UpdateBorderColors()
-	E:UpdateBackdropColors()
 	E:UpdateFrameTemplates()
 	E:UpdateStatusBars()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
-function E:UpdateLayout()
+function E:UpdateLayout(skipCallback)
 	local Layout = E:GetModule('Layout')
 	Layout:ToggleChatPanels()
 	Layout:BottomPanelVisibility()
 	Layout:TopPanelVisibility()
 	Layout:SetDataPanelStyle()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
-function E:UpdateActionBars()
+function E:UpdateActionBars(skipCallback)
 	local ActionBars = E:GetModule('ActionBars')
 	ActionBars:Extra_SetAlpha()
 	ActionBars:Extra_SetScale()
@@ -1110,15 +1137,19 @@ function E:UpdateActionBars()
 	ActionBars:UpdateMicroPositionDimensions()
 	ActionBars:UpdatePetCooldownSettings()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
-function E:UpdateNamePlates()
+function E:UpdateNamePlates(skipCallback)
 	local NamePlates = E:GetModule('NamePlates')
 	NamePlates:ConfigureAll()
 	NamePlates:StyleFilterInitializeAllFilters()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
 function E:UpdateTooltip()
@@ -1126,7 +1157,7 @@ function E:UpdateTooltip()
 	--local Tooltip = E:GetModule('Tooltip')
 end
 
-function E:UpdateBags()
+function E:UpdateBags(skipCallback)
 	local Bags = E:GetModule('Bags')
 	Bags:Layout()
 	Bags:Layout(true)
@@ -1134,19 +1165,23 @@ function E:UpdateBags()
 	Bags:UpdateCountDisplay()
 	Bags:UpdateItemLevelDisplay()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
-function E:UpdateChat()
+function E:UpdateChat(skipCallback)
 	local Chat = E:GetModule('Chat')
 	Chat:PositionChat(true)
 	Chat:SetupChat()
 	Chat:UpdateAnchors()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
-function E:UpdateDataBars()
+function E:UpdateDataBars(skipCallback)
 	local DataBars = E:GetModule('DataBars')
 	DataBars:EnableDisable_AzeriteBar()
 	DataBars:EnableDisable_ExperienceBar()
@@ -1154,32 +1189,40 @@ function E:UpdateDataBars()
 	DataBars:EnableDisable_ReputationBar()
 	DataBars:UpdateDataBarDimensions()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
-function E:UpdateDataTexts()
+function E:UpdateDataTexts(skipCallback)
 	local DataTexts = E:GetModule('DataTexts')
 	DataTexts:LoadDataTexts()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
-function E:UpdateMinimap()
+function E:UpdateMinimap(skipCallback)
 	local Minimap = E:GetModule('Minimap')
 	Minimap:UpdateSettings()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
-function E:UpdateAuras()
+function E:UpdateAuras(skipCallback)
 	local Auras = E:GetModule('Auras')
 	if ElvUIPlayerBuffs then Auras:UpdateHeader(ElvUIPlayerBuffs) end
 	if ElvUIPlayerDebuffs then Auras:UpdateHeader(ElvUIPlayerDebuffs) end
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
-function E:UpdateMisc()
+function E:UpdateMisc(skipCallback)
 	E:GetModule('AFK'):Toggle()
 	E:GetModule('Blizzard'):SetObjectiveFrameHeight()
 
@@ -1191,7 +1234,9 @@ function E:UpdateMisc()
 	Totems:PositionAndSize()
 	Totems:ToggleEnable()
 
-	E.callbacks:Fire("StaggeredUpdate")
+	if not skipCallback then
+		E.callbacks:Fire("StaggeredUpdate")
+	end
 end
 
 function E:UpdateEnd()
@@ -1203,8 +1248,8 @@ function E:UpdateEnd()
 
 	E:SetMoversClampedToScreen(true) -- Go back to using clamp after resizing has taken place.
 
-	if (E.ignoreInstall ~= true) and (E.private.install_complete == nil or (E.private.install_complete and type(E.private.install_complete) == 'boolean') or (E.private.install_complete and type(tonumber(E.private.install_complete)) == 'number' and tonumber(E.private.install_complete) <= 3.83)) then
-		E.ignoreInstall = nil
+	if (E.installSetup ~= true) and (E.private.install_complete == nil or (E.private.install_complete and type(E.private.install_complete) == 'boolean') or (E.private.install_complete and type(tonumber(E.private.install_complete)) == 'number' and tonumber(E.private.install_complete) <= 3.83)) then
+		E.installSetup = nil
 		E:Install()
 	end
 
@@ -1235,18 +1280,17 @@ end
 
 E:RegisterCallback("StaggeredUpdate", CallStaggeredUpdate)
 
-function E:StaggeredUpdateAll(event, ignoreInstall)
+function E:StaggeredUpdateAll(event, installSetup)
 	if not self.initialized then
 		C_Timer_After(1, function()
-			E:StaggeredUpdateAll(event, ignoreInstall)
+			E:StaggeredUpdateAll(event, installSetup)
 		end)
 
 		return
 	end
 
-	self.ignoreInstall = ignoreInstall
-
-	if event and (event == "OnProfileChanged" or event == "OnProfileCopied") and not self.staggerUpdateRunning then
+	self.installSetup = installSetup
+	if (installSetup or event and event == "OnProfileChanged" or event == "OnProfileCopied") and not self.staggerUpdateRunning then
 		tinsert(staggerTable, "UpdateLayout")
 		if E.private.actionbar.enable then
 			tinsert(staggerTable, "UpdateActionBars")
@@ -1282,12 +1326,8 @@ end
 
 function E:UpdateAll(doUpdates)
 	if doUpdates then
-		-- this block should mimic `E:UpdateStart`
-		self:UpdateDB()
-		self:UpdateMoverPositions()
-		self:UpdateMediaItems()
-		self:UpdateUnitFrames()
-		--
+		E:UpdateStart(true)
+
 		self:UpdateLayout()
 		self:UpdateTooltip()
 		self:UpdateActionBars()
@@ -1698,6 +1738,15 @@ function E:DBConversions()
 	--Not sure how this one happens, but prevent it in any case
 	if E.global.general.UIScale <= 0 then
 		E.global.general.UIScale = G.general.UIScale
+	end
+
+	--v11 Nameplates Reset
+	if not E.db.v11NamePlateReset and E.private.nameplates.enable then
+		local styleFilters = E:CopyTable({}, E.db.nameplates.filters)
+		E.db.nameplates = E:CopyTable({}, P.nameplates)
+		E.db.nameplates.filters = E:CopyTable({}, styleFilters)
+		E:GetModule("NamePlates"):CVarReset()
+		E.db.v11NamePlateReset = true
 	end
 end
 

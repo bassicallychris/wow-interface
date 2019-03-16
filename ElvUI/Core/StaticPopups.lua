@@ -57,7 +57,7 @@ E.PopupDialogs.ELVUI_UPDATE_AVAILABLE = {
 		self.editBox:SetAutoFocus(false)
 		self.editBox.width = self.editBox:GetWidth()
 		self.editBox:Width(220)
-		self.editBox:SetText("https://tukui.org/dl.php")
+		self.editBox:SetText("https://www.tukui.org/download.php?ui=elvui")
 		self.editBox:HighlightText()
 		ChatEdit_FocusActiveWindow();
 	end,
@@ -77,8 +77,8 @@ E.PopupDialogs.ELVUI_UPDATE_AVAILABLE = {
 		self:GetParent():Hide();
 	end,
 	EditBoxOnTextChanged = function(self)
-		if(self:GetText() ~= "https://tukui.org/dl.php") then
-			self:SetText("https://tukui.org/dl.php")
+		if(self:GetText() ~= "https://www.tukui.org/download.php?ui=elvui") then
+			self:SetText("https://www.tukui.org/download.php?ui=elvui")
 		end
 		self:HighlightText()
 		self:ClearFocus()
@@ -1092,7 +1092,7 @@ function E:StaticPopup_Show(which, text_arg1, text_arg2, data)
 		if ( info.maxBytes ) then
 			editBox:SetMaxBytes(info.maxBytes);
 		end
-		editBox:SetText("");
+		editBox:SetText('');
 		if ( info.editBoxWidth ) then
 			editBox:Width(info.editBoxWidth);
 		else
@@ -1314,7 +1314,7 @@ function E:StaticPopup_CreateSecureButton(popup, button, text, macro)
 
 	local t = btn:CreateFontString(nil, 'OVERLAY', btn)
 	t:Point('CENTER', 0, 1)
-	t:FontTemplate()
+	t:FontTemplate(nil, nil, 'NONE')
 	t:SetJustifyH('CENTER')
 	t:SetText(text)
 	btn.text = t

@@ -177,63 +177,82 @@ local rolePaths = {
 
 local specialChatIcons
 do --this can save some main file locals
-	--local ElvPink		= E:TextureString(E.Media.ChatLogos.ElvPink, ":13:25")
-	local ElvPurple		= E:TextureString(E.Media.ChatLogos.ElvPurple, ":13:25")
-	local ElvBlue		= E:TextureString(E.Media.ChatLogos.ElvBlue, ":13:25")
-	local ElvGreen		= E:TextureString(E.Media.ChatLogos.ElvGreen, ":13:25")
-	local ElvOrange		= E:TextureString(E.Media.ChatLogos.ElvOrange, ":13:25")
-	local ElvRed		= E:TextureString(E.Media.ChatLogos.ElvRed, ":13:25")
-	local ElvRainbow	= E:TextureString(E.Media.ChatLogos.ElvRainbow, ":13:25")
-	local Bathrobe		= E:TextureString(E.Media.ChatLogos.Bathrobe, ":15:15")
-	local MrHankey		= E:TextureString(E.Media.ChatLogos.MrHankey, ":16:18")
+	local x, y = ':16:16',':13:25'
+	--local ElvMelon		= E:TextureString(E.Media.ChatLogos.ElvMelon,y)
+	--local ElvRainbow	= E:TextureString(E.Media.ChatLogos.ElvRainbow,y)
+	local ElvRed		= E:TextureString(E.Media.ChatLogos.ElvRed,y)
+	local ElvOrange		= E:TextureString(E.Media.ChatLogos.ElvOrange,y)
+	local ElvYellow		= E:TextureString(E.Media.ChatLogos.ElvYellow,y)
+	local ElvGreen		= E:TextureString(E.Media.ChatLogos.ElvGreen,y)
+	local ElvBlue		= E:TextureString(E.Media.ChatLogos.ElvBlue,y)
+	local ElvPurple		= E:TextureString(E.Media.ChatLogos.ElvPurple,y)
+	local ElvPink		= E:TextureString(E.Media.ChatLogos.ElvPink,y)
+	local Bathrobe		= E:TextureString(E.Media.ChatLogos.Bathrobe,x)
+	local MrHankey		= E:TextureString(E.Media.ChatLogos.MrHankey,x)
+	local Rainbow		= E:TextureString(E.Media.ChatLogos.Rainbow,x)
+
+	local a,b,c=0,false,{ElvRed,ElvOrange,ElvYellow,ElvGreen,ElvBlue,ElvPurple,ElvPink}
+	local itsSimpy=function()a=a-(b and 1 or -1)if(b and a==1 or a==0)or a==#c then b=not b end return c[a] end
+
 	specialChatIcons = {
-		-- Elv --
+		-- Elv
 		["Illidelv-Area52"]		= ElvBlue,
 		["Elvz-Kil'jaeden"]		= ElvBlue,
 		["Elv-Spirestone"]		= ElvBlue,
-		-- Tirain --
-		["Tierone-Spirestone"] = "Dr. ", -- lol
+		-- Tirain (NOTE: lol)
+		["Tierone-Spirestone"]	= "Dr. ",
 		["Tirain-Spirestone"]	= MrHankey,
 		["Sinth-Spirestone"]	= MrHankey,
-		-- Whiro --
-		["Zistraeti-WyrmrestAccord"]	= ElvPurple, -- Warlock
-		-- Merathilis Toons --
-		["Asragoth-Shattrath"]		= ElvPurple,	-- Warlock [Alliance]
-		["Damará-Shattrath"]		= ElvRed,		-- Paladin [Alliance]
-		["Jazira-Shattrath"]		= ElvBlue,		-- Priest [Alliance]
-		["Maithilis-Shattrath"]		= ElvGreen,		-- Monk [Alliance]
-		["Mattdemôn-Shattrath"]		= ElvPurple,	-- Demon Hunter [Alliance]
-		["Melisendra-Shattrath"]	= ElvBlue,		-- Mage [Alliance]
-		["Merathilis-Garrosh"]		= ElvOrange,	-- Druid [Horde]
-		["Merathilis-Shattrath"]	= ElvOrange,	-- Druid [Alliance]
-		["Merathilîs-Shattrath"]	= ElvBlue,		-- Shaman [Alliance]
-		-- Affinity's Toons --
+		-- Mis (NOTE: I will forever have the picture you accidently shared of the manikin wearing a strapon burned in my brain)
+		["Misdîrect-Spirestone"]	= Rainbow,
+		["Misoracle-Spirestone"]	= Rainbow,
+		["MisLight-Spirestone"]		= Rainbow,
+		["MisDivine-Spirestone"]	= Rainbow,
+		["MisLust-Spirestone"]		= Rainbow,
+		["MisMayhem-Spirestone"]	= Rainbow,
+		["Mismonk-Spirestone"]		= Rainbow,
+		["Misillidan-Spirestone"]	= Rainbow,
+		["Mispel-Spirestone"]		= Rainbow,
+		["Misdecay-Spirestone"]		= Rainbow,
+		-- Affinity
 		["Affinichi-Illidan"]	= Bathrobe,
 		["Affinitii-Illidan"]	= Bathrobe,
 		["Affinity-Illidan"]	= Bathrobe,
 		["Uplift-Illidan"]		= Bathrobe,
-		-- Blazeflack's Toons --
+		-- Whiro
+		["Zistraeti-WyrmrestAccord"]	= ElvPurple, -- Warlock
+		-- Merathilis
+		["Asragoth-Shattrath"]		= ElvPurple,	-- [Alliance] Warlock
+		["Damará-Shattrath"]		= ElvRed,		-- [Alliance] Paladin
+		["Jazira-Shattrath"]		= ElvBlue,		-- [Alliance] Priest
+		["Maithilis-Shattrath"]		= ElvGreen,		-- [Alliance] Monk
+		["Mattdemôn-Shattrath"]		= ElvPurple,	-- [Alliance] DH
+		["Melisendra-Shattrath"]	= ElvBlue,		-- [Alliance] Mage
+		["Merathilis-Shattrath"]	= ElvOrange,	-- [Alliance] Druid
+		["Merathilîs-Shattrath"]	= ElvBlue,		-- [Alliance] Shaman
+		["Merathilis-Garrosh"]		= ElvOrange,	-- [Horde] Druid
+		-- Blazeflack
 		["Blazii-Silvermoon"]	= ElvBlue, -- Priest
 		["Chazii-Silvermoon"]	= ElvBlue, -- Shaman
-		-- Simpy's Toons --
-		["Arieva-Cenarius"]		= ElvRainbow, -- Hunter
-		["Buddercup-Cenarius"]	= ElvRainbow, -- Rogue
-		["Cutepally-Cenarius"]	= ElvRainbow, -- Paladin
-		["Ezek-Cenarius"]		= ElvRainbow, -- DK
-		["Glice-Cenarius"]		= ElvRainbow, -- Warrior
-		["Kalline-Cenarius"]	= ElvRainbow, -- Shaman
-		["Puttietat-Cenarius"]	= ElvRainbow, -- Druid
-		["Simpy-Cenarius"]		= ElvRainbow, -- Warlock
-		["Twigly-Cenarius"]		= ElvRainbow, -- Monk
-		["Imsojelly-Cenarius"]	= ElvRainbow, -- [Horde] DK
-		["Imsojuicy-Cenarius"]	= ElvRainbow, -- [Horde] Druid
-		["Imsopeachy-Cenarius"]	= ElvRainbow, -- [Horde] DH
-		["Imsosalty-Cenarius"]	= ElvRainbow, -- [Horde] Paladin
-		["Imsospicy-Cenarius"]	= ElvRainbow, -- [Horde] Mage
-		["Bunne-CenarionCircle"]		= ElvRainbow, -- Warrior
-		["Loppybunny-CenarionCircle"]	= ElvRainbow, -- Mage
-		["Rubee-CenarionCircle"]		= ElvRainbow, -- DH
-		["Wennie-CenarionCircle"]		= ElvRainbow, -- Priest
+		-- Simpy
+		["Arieva-Cenarius"]		= itsSimpy, -- Hunter
+		["Buddercup-Cenarius"]	= itsSimpy, -- Rogue
+		["Cutepally-Cenarius"]	= itsSimpy, -- Paladin
+		["Ezek-Cenarius"]		= itsSimpy, -- DK
+		["Glice-Cenarius"]		= itsSimpy, -- Warrior
+		["Kalline-Cenarius"]	= itsSimpy, -- Shaman
+		["Puttietat-Cenarius"]	= itsSimpy, -- Druid
+		["Simpy-Cenarius"]		= itsSimpy, -- Warlock
+		["Twigly-Cenarius"]		= itsSimpy, -- Monk
+		["Imsojelly-Cenarius"]	= itsSimpy, -- [Horde] DK
+		["Imsojuicy-Cenarius"]	= itsSimpy, -- [Horde] Druid
+		["Imsopeachy-Cenarius"]	= itsSimpy, -- [Horde] DH
+		["Imsosalty-Cenarius"]	= itsSimpy, -- [Horde] Paladin
+		["Imsospicy-Cenarius"]	= itsSimpy, -- [Horde] Mage
+		["Bunne-CenarionCircle"]		= itsSimpy, -- Warrior
+		["Loppybunny-CenarionCircle"]	= itsSimpy, -- Mage
+		["Rubee-CenarionCircle"]		= itsSimpy, -- DH
+		["Wennie-CenarionCircle"]		= itsSimpy, -- Priest
 	}
 end
 
@@ -439,7 +458,7 @@ function CH:StyleChat(frame)
 
 			if editBox.historyIndex < 1 then
 				editBox.historyIndex = 0
-				editBox:SetText("")
+				editBox:SetText('')
 				return
 			end
 		elseif key == "UP" then
@@ -460,7 +479,7 @@ function CH:StyleChat(frame)
 	_G[format(editbox:GetName().."Left", id)]:Kill()
 	_G[format(editbox:GetName().."Mid", id)]:Kill()
 	_G[format(editbox:GetName().."Right", id)]:Kill()
-	editbox:SetTemplate('Default', true)
+	editbox:SetTemplate(nil, true)
 	editbox:SetAltArrowKeyMode(CH.db.useAltKey)
 	editbox:SetAllPoints(LeftChatDataPanel)
 	self:SecureHook(editbox, "AddHistoryLine", "ChatEdit_AddHistory")
@@ -1539,6 +1558,8 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 
 			-- Player Flags
 			local pflag, chatIcon, pluginChatIcon = "", specialChatIcons[playerName], CH:GetPluginIcon(playerName)
+			if type(chatIcon) == 'function' then chatIcon = chatIcon() end
+
 			if arg6 ~= "" then -- Blizzard Flags
 				if arg6 == "GM" or arg6 == "DEV" then -- Blizzard Icon, this was sent by a GM or Dev.
 					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:12:20:0:0:32:16:4:28:0:16|t";
@@ -1670,7 +1691,7 @@ function CH:SetupChat()
 		local _, fontSize = FCF_GetChatWindowInfo(id);
 		self:StyleChat(frame)
 		FCFTab_UpdateAlpha(frame)
-		frame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
+		frame:FontTemplate(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 		if self.db.fontOutline ~= 'NONE' then
 			frame:SetShadowColor(0, 0, 0, 0.2)
 		else
@@ -1883,7 +1904,7 @@ function CH:SetChatFont(dropDown, chatFrame, fontSize)
 	if ( not fontSize ) then
 		fontSize = dropDown.value;
 	end
-	chatFrame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
+	chatFrame:FontTemplate(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 	if self.db.fontOutline ~= 'NONE' then
 		chatFrame:SetShadowColor(0, 0, 0, 0.2)
 	else
@@ -2244,103 +2265,104 @@ local FindURL_Events = {
 }
 
 function CH:DefaultSmileys()
+	local x = ':16:16'
 	if next(CH.Smileys) then
 		wipe(CH.Smileys)
 	end
 
 	-- new keys
-	CH:AddSmiley(':angry:', E:TextureString(E.Media.ChatEmojis.Angry, ':16:16'))
-	CH:AddSmiley(':blush:', E:TextureString(E.Media.ChatEmojis.Blush, ':16:16'))
-	CH:AddSmiley(':broken_heart:', E:TextureString(E.Media.ChatEmojis.BrokenHeart, ':16:16'))
-	CH:AddSmiley(':call_me:', E:TextureString(E.Media.ChatEmojis.CallMe, ':16:16'))
-	CH:AddSmiley(':cry:', E:TextureString(E.Media.ChatEmojis.Cry, ':16:16'))
-	CH:AddSmiley(':facepalm:', E:TextureString(E.Media.ChatEmojis.Facepalm, ':16:16'))
-	CH:AddSmiley(':grin:', E:TextureString(E.Media.ChatEmojis.Grin, ':16:16'))
-	CH:AddSmiley(':heart:', E:TextureString(E.Media.ChatEmojis.Heart, ':16:16'))
-	CH:AddSmiley(':heart_eyes:', E:TextureString(E.Media.ChatEmojis.HeartEyes, ':16:16'))
-	CH:AddSmiley(':joy:', E:TextureString(E.Media.ChatEmojis.Joy, ':16:16'))
-	CH:AddSmiley(':kappa:', E:TextureString(E.Media.ChatEmojis.Kappa, ':16:16'))
-	CH:AddSmiley(':middle_finger:', E:TextureString(E.Media.ChatEmojis.MiddleFinger, ':16:16'))
-	CH:AddSmiley(':murloc:', E:TextureString(E.Media.ChatEmojis.Murloc, ':16:16'))
-	CH:AddSmiley(':ok_hand:', E:TextureString(E.Media.ChatEmojis.OkHand, ':16:16'))
-	CH:AddSmiley(':open_mouth:', E:TextureString(E.Media.ChatEmojis.OpenMouth, ':16:16'))
-	CH:AddSmiley(':poop:', E:TextureString(E.Media.ChatEmojis.Poop, ':16:16'))
-	CH:AddSmiley(':rage:', E:TextureString(E.Media.ChatEmojis.Rage, ':16:16'))
-	CH:AddSmiley(':sadkitty:', E:TextureString(E.Media.ChatEmojis.SadKitty, ':16:16'))
-	CH:AddSmiley(':scream:', E:TextureString(E.Media.ChatEmojis.Scream, ':16:16'))
-	CH:AddSmiley(':scream_cat:', E:TextureString(E.Media.ChatEmojis.ScreamCat, ':16:16'))
-	CH:AddSmiley(':slight_frown:', E:TextureString(E.Media.ChatEmojis.SlightFrown, ':16:16'))
-	CH:AddSmiley(':smile:', E:TextureString(E.Media.ChatEmojis.Smile, ':16:16'))
-	CH:AddSmiley(':smirk:', E:TextureString(E.Media.ChatEmojis.Smirk, ':16:16'))
-	CH:AddSmiley(':sob:', E:TextureString(E.Media.ChatEmojis.Sob, ':16:16'))
-	CH:AddSmiley(':sunglasses:', E:TextureString(E.Media.ChatEmojis.Sunglasses, ':16:16'))
-	CH:AddSmiley(':thinking:', E:TextureString(E.Media.ChatEmojis.Thinking, ':16:16'))
-	CH:AddSmiley(':thumbs_up:', E:TextureString(E.Media.ChatEmojis.ThumbsUp, ':16:16'))
-	CH:AddSmiley(':semi_colon:', E:TextureString(E.Media.ChatEmojis.SemiColon, ':16:16'))
-	CH:AddSmiley(':wink:', E:TextureString(E.Media.ChatEmojis.Wink, ':16:16'))
-	CH:AddSmiley(':zzz:', E:TextureString(E.Media.ChatEmojis.ZZZ, ':16:16'))
-	CH:AddSmiley(':stuck_out_tongue:', E:TextureString(E.Media.ChatEmojis.StuckOutTongue, ':16:16'))
-	CH:AddSmiley(':stuck_out_tongue_closed_eyes:', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes, ':16:16'))
+	CH:AddSmiley(':angry:', E:TextureString(E.Media.ChatEmojis.Angry,x))
+	CH:AddSmiley(':blush:', E:TextureString(E.Media.ChatEmojis.Blush,x))
+	CH:AddSmiley(':broken_heart:', E:TextureString(E.Media.ChatEmojis.BrokenHeart,x))
+	CH:AddSmiley(':call_me:', E:TextureString(E.Media.ChatEmojis.CallMe,x))
+	CH:AddSmiley(':cry:', E:TextureString(E.Media.ChatEmojis.Cry,x))
+	CH:AddSmiley(':facepalm:', E:TextureString(E.Media.ChatEmojis.Facepalm,x))
+	CH:AddSmiley(':grin:', E:TextureString(E.Media.ChatEmojis.Grin,x))
+	CH:AddSmiley(':heart:', E:TextureString(E.Media.ChatEmojis.Heart,x))
+	CH:AddSmiley(':heart_eyes:', E:TextureString(E.Media.ChatEmojis.HeartEyes,x))
+	CH:AddSmiley(':joy:', E:TextureString(E.Media.ChatEmojis.Joy,x))
+	CH:AddSmiley(':kappa:', E:TextureString(E.Media.ChatEmojis.Kappa,x))
+	CH:AddSmiley(':middle_finger:', E:TextureString(E.Media.ChatEmojis.MiddleFinger,x))
+	CH:AddSmiley(':murloc:', E:TextureString(E.Media.ChatEmojis.Murloc,x))
+	CH:AddSmiley(':ok_hand:', E:TextureString(E.Media.ChatEmojis.OkHand,x))
+	CH:AddSmiley(':open_mouth:', E:TextureString(E.Media.ChatEmojis.OpenMouth,x))
+	CH:AddSmiley(':poop:', E:TextureString(E.Media.ChatEmojis.Poop,x))
+	CH:AddSmiley(':rage:', E:TextureString(E.Media.ChatEmojis.Rage,x))
+	CH:AddSmiley(':sadkitty:', E:TextureString(E.Media.ChatEmojis.SadKitty,x))
+	CH:AddSmiley(':scream:', E:TextureString(E.Media.ChatEmojis.Scream,x))
+	CH:AddSmiley(':scream_cat:', E:TextureString(E.Media.ChatEmojis.ScreamCat,x))
+	CH:AddSmiley(':slight_frown:', E:TextureString(E.Media.ChatEmojis.SlightFrown,x))
+	CH:AddSmiley(':smile:', E:TextureString(E.Media.ChatEmojis.Smile,x))
+	CH:AddSmiley(':smirk:', E:TextureString(E.Media.ChatEmojis.Smirk,x))
+	CH:AddSmiley(':sob:', E:TextureString(E.Media.ChatEmojis.Sob,x))
+	CH:AddSmiley(':sunglasses:', E:TextureString(E.Media.ChatEmojis.Sunglasses,x))
+	CH:AddSmiley(':thinking:', E:TextureString(E.Media.ChatEmojis.Thinking,x))
+	CH:AddSmiley(':thumbs_up:', E:TextureString(E.Media.ChatEmojis.ThumbsUp,x))
+	CH:AddSmiley(':semi_colon:', E:TextureString(E.Media.ChatEmojis.SemiColon,x))
+	CH:AddSmiley(':wink:', E:TextureString(E.Media.ChatEmojis.Wink,x))
+	CH:AddSmiley(':zzz:', E:TextureString(E.Media.ChatEmojis.ZZZ,x))
+	CH:AddSmiley(':stuck_out_tongue:', E:TextureString(E.Media.ChatEmojis.StuckOutTongue,x))
+	CH:AddSmiley(':stuck_out_tongue_closed_eyes:', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes,x))
 
 	-- Darth's keys
-	CH:AddSmiley(':meaw:', E:TextureString(E.Media.ChatEmojis.Meaw, ':16:16'))
+	CH:AddSmiley(':meaw:', E:TextureString(E.Media.ChatEmojis.Meaw,x))
 
 	-- Simpy's keys
-	CH:AddSmiley('>:%(', E:TextureString(E.Media.ChatEmojis.Rage, ':16:16'))
-	CH:AddSmiley(':%$', E:TextureString(E.Media.ChatEmojis.Blush, ':16:16'))
-	CH:AddSmiley('<\\3', E:TextureString(E.Media.ChatEmojis.BrokenHeart, ':16:16'))
-	CH:AddSmiley(':\'%)', E:TextureString(E.Media.ChatEmojis.Joy, ':16:16'))
-	CH:AddSmiley(';\'%)', E:TextureString(E.Media.ChatEmojis.Joy, ':16:16'))
-	CH:AddSmiley(',,!,,', E:TextureString(E.Media.ChatEmojis.MiddleFinger, ':16:16'))
-	CH:AddSmiley('D:<', E:TextureString(E.Media.ChatEmojis.Rage, ':16:16'))
-	CH:AddSmiley(':o3', E:TextureString(E.Media.ChatEmojis.ScreamCat, ':16:16'))
-	CH:AddSmiley('XP', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes, ':16:16'))
-	CH:AddSmiley('8%-%)', E:TextureString(E.Media.ChatEmojis.Sunglasses, ':16:16'))
-	CH:AddSmiley('8%)', E:TextureString(E.Media.ChatEmojis.Sunglasses, ':16:16'))
-	CH:AddSmiley(':%+1:', E:TextureString(E.Media.ChatEmojis.ThumbsUp, ':16:16'))
-	CH:AddSmiley(':;:', E:TextureString(E.Media.ChatEmojis.SemiColon, ':16:16'))
-	CH:AddSmiley(';o;', E:TextureString(E.Media.ChatEmojis.Sob, ':16:16'))
+	CH:AddSmiley('>:%(', E:TextureString(E.Media.ChatEmojis.Rage,x))
+	CH:AddSmiley(':%$', E:TextureString(E.Media.ChatEmojis.Blush,x))
+	CH:AddSmiley('<\\3', E:TextureString(E.Media.ChatEmojis.BrokenHeart,x))
+	CH:AddSmiley(':\'%)', E:TextureString(E.Media.ChatEmojis.Joy,x))
+	CH:AddSmiley(';\'%)', E:TextureString(E.Media.ChatEmojis.Joy,x))
+	CH:AddSmiley(',,!,,', E:TextureString(E.Media.ChatEmojis.MiddleFinger,x))
+	CH:AddSmiley('D:<', E:TextureString(E.Media.ChatEmojis.Rage,x))
+	CH:AddSmiley(':o3', E:TextureString(E.Media.ChatEmojis.ScreamCat,x))
+	CH:AddSmiley('XP', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes,x))
+	CH:AddSmiley('8%-%)', E:TextureString(E.Media.ChatEmojis.Sunglasses,x))
+	CH:AddSmiley('8%)', E:TextureString(E.Media.ChatEmojis.Sunglasses,x))
+	CH:AddSmiley(':%+1:', E:TextureString(E.Media.ChatEmojis.ThumbsUp,x))
+	CH:AddSmiley(':;:', E:TextureString(E.Media.ChatEmojis.SemiColon,x))
+	CH:AddSmiley(';o;', E:TextureString(E.Media.ChatEmojis.Sob,x))
 
 	-- old keys
-	CH:AddSmiley(':%-@', E:TextureString(E.Media.ChatEmojis.Angry, ':16:16'))
-	CH:AddSmiley(':@', E:TextureString(E.Media.ChatEmojis.Angry, ':16:16'))
-	CH:AddSmiley(':%-%)', E:TextureString(E.Media.ChatEmojis.Smile, ':16:16'))
-	CH:AddSmiley(':%)', E:TextureString(E.Media.ChatEmojis.Smile, ':16:16'))
-	CH:AddSmiley(':D', E:TextureString(E.Media.ChatEmojis.Grin, ':16:16'))
-	CH:AddSmiley(':%-D', E:TextureString(E.Media.ChatEmojis.Grin, ':16:16'))
-	CH:AddSmiley(';%-D', E:TextureString(E.Media.ChatEmojis.Grin, ':16:16'))
-	CH:AddSmiley(';D', E:TextureString(E.Media.ChatEmojis.Grin, ':16:16'))
-	CH:AddSmiley('=D', E:TextureString(E.Media.ChatEmojis.Grin, ':16:16'))
-	CH:AddSmiley('xD', E:TextureString(E.Media.ChatEmojis.Grin, ':16:16'))
-	CH:AddSmiley('XD', E:TextureString(E.Media.ChatEmojis.Grin, ':16:16'))
-	CH:AddSmiley(':%-%(', E:TextureString(E.Media.ChatEmojis.SlightFrown, ':16:16'))
-	CH:AddSmiley(':%(', E:TextureString(E.Media.ChatEmojis.SlightFrown, ':16:16'))
-	CH:AddSmiley(':o', E:TextureString(E.Media.ChatEmojis.OpenMouth, ':16:16'))
-	CH:AddSmiley(':%-o', E:TextureString(E.Media.ChatEmojis.OpenMouth, ':16:16'))
-	CH:AddSmiley(':%-O', E:TextureString(E.Media.ChatEmojis.OpenMouth, ':16:16'))
-	CH:AddSmiley(':O', E:TextureString(E.Media.ChatEmojis.OpenMouth, ':16:16'))
-	CH:AddSmiley(':%-0', E:TextureString(E.Media.ChatEmojis.OpenMouth, ':16:16'))
-	CH:AddSmiley(':P', E:TextureString(E.Media.ChatEmojis.StuckOutTongue, ':16:16'))
-	CH:AddSmiley(':%-P', E:TextureString(E.Media.ChatEmojis.StuckOutTongue, ':16:16'))
-	CH:AddSmiley(':p', E:TextureString(E.Media.ChatEmojis.StuckOutTongue, ':16:16'))
-	CH:AddSmiley(':%-p', E:TextureString(E.Media.ChatEmojis.StuckOutTongue, ':16:16'))
-	CH:AddSmiley('=P', E:TextureString(E.Media.ChatEmojis.StuckOutTongue, ':16:16'))
-	CH:AddSmiley('=p', E:TextureString(E.Media.ChatEmojis.StuckOutTongue, ':16:16'))
-	CH:AddSmiley(';%-p', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes, ':16:16'))
-	CH:AddSmiley(';p', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes, ':16:16'))
-	CH:AddSmiley(';P', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes, ':16:16'))
-	CH:AddSmiley(';%-P', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes, ':16:16'))
-	CH:AddSmiley(';%-%)', E:TextureString(E.Media.ChatEmojis.Wink, ':16:16'))
-	CH:AddSmiley(';%)', E:TextureString(E.Media.ChatEmojis.Wink, ':16:16'))
-	CH:AddSmiley(':S', E:TextureString(E.Media.ChatEmojis.Smirk, ':16:16'))
-	CH:AddSmiley(':%-S', E:TextureString(E.Media.ChatEmojis.Smirk, ':16:16'))
-	CH:AddSmiley(':,%(', E:TextureString(E.Media.ChatEmojis.Cry, ':16:16'))
-	CH:AddSmiley(':,%-%(', E:TextureString(E.Media.ChatEmojis.Cry, ':16:16'))
-	CH:AddSmiley(':\'%(', E:TextureString(E.Media.ChatEmojis.Cry, ':16:16'))
-	CH:AddSmiley(':\'%-%(', E:TextureString(E.Media.ChatEmojis.Cry, ':16:16'))
-	CH:AddSmiley(':F', E:TextureString(E.Media.ChatEmojis.MiddleFinger, ':16:16'))
-	CH:AddSmiley('<3', E:TextureString(E.Media.ChatEmojis.Heart, ':16:16'))
-	CH:AddSmiley('</3', E:TextureString(E.Media.ChatEmojis.BrokenHeart, ':16:16'))
+	CH:AddSmiley(':%-@', E:TextureString(E.Media.ChatEmojis.Angry,x))
+	CH:AddSmiley(':@', E:TextureString(E.Media.ChatEmojis.Angry,x))
+	CH:AddSmiley(':%-%)', E:TextureString(E.Media.ChatEmojis.Smile,x))
+	CH:AddSmiley(':%)', E:TextureString(E.Media.ChatEmojis.Smile,x))
+	CH:AddSmiley(':D', E:TextureString(E.Media.ChatEmojis.Grin,x))
+	CH:AddSmiley(':%-D', E:TextureString(E.Media.ChatEmojis.Grin,x))
+	CH:AddSmiley(';%-D', E:TextureString(E.Media.ChatEmojis.Grin,x))
+	CH:AddSmiley(';D', E:TextureString(E.Media.ChatEmojis.Grin,x))
+	CH:AddSmiley('=D', E:TextureString(E.Media.ChatEmojis.Grin,x))
+	CH:AddSmiley('xD', E:TextureString(E.Media.ChatEmojis.Grin,x))
+	CH:AddSmiley('XD', E:TextureString(E.Media.ChatEmojis.Grin,x))
+	CH:AddSmiley(':%-%(', E:TextureString(E.Media.ChatEmojis.SlightFrown,x))
+	CH:AddSmiley(':%(', E:TextureString(E.Media.ChatEmojis.SlightFrown,x))
+	CH:AddSmiley(':o', E:TextureString(E.Media.ChatEmojis.OpenMouth,x))
+	CH:AddSmiley(':%-o', E:TextureString(E.Media.ChatEmojis.OpenMouth,x))
+	CH:AddSmiley(':%-O', E:TextureString(E.Media.ChatEmojis.OpenMouth,x))
+	CH:AddSmiley(':O', E:TextureString(E.Media.ChatEmojis.OpenMouth,x))
+	CH:AddSmiley(':%-0', E:TextureString(E.Media.ChatEmojis.OpenMouth,x))
+	CH:AddSmiley(':P', E:TextureString(E.Media.ChatEmojis.StuckOutTongue,x))
+	CH:AddSmiley(':%-P', E:TextureString(E.Media.ChatEmojis.StuckOutTongue,x))
+	CH:AddSmiley(':p', E:TextureString(E.Media.ChatEmojis.StuckOutTongue,x))
+	CH:AddSmiley(':%-p', E:TextureString(E.Media.ChatEmojis.StuckOutTongue,x))
+	CH:AddSmiley('=P', E:TextureString(E.Media.ChatEmojis.StuckOutTongue,x))
+	CH:AddSmiley('=p', E:TextureString(E.Media.ChatEmojis.StuckOutTongue,x))
+	CH:AddSmiley(';%-p', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes,x))
+	CH:AddSmiley(';p', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes,x))
+	CH:AddSmiley(';P', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes,x))
+	CH:AddSmiley(';%-P', E:TextureString(E.Media.ChatEmojis.StuckOutTongueClosedEyes,x))
+	CH:AddSmiley(';%-%)', E:TextureString(E.Media.ChatEmojis.Wink,x))
+	CH:AddSmiley(';%)', E:TextureString(E.Media.ChatEmojis.Wink,x))
+	CH:AddSmiley(':S', E:TextureString(E.Media.ChatEmojis.Smirk,x))
+	CH:AddSmiley(':%-S', E:TextureString(E.Media.ChatEmojis.Smirk,x))
+	CH:AddSmiley(':,%(', E:TextureString(E.Media.ChatEmojis.Cry,x))
+	CH:AddSmiley(':,%-%(', E:TextureString(E.Media.ChatEmojis.Cry,x))
+	CH:AddSmiley(':\'%(', E:TextureString(E.Media.ChatEmojis.Cry,x))
+	CH:AddSmiley(':\'%-%(', E:TextureString(E.Media.ChatEmojis.Cry,x))
+	CH:AddSmiley(':F', E:TextureString(E.Media.ChatEmojis.MiddleFinger,x))
+	CH:AddSmiley('<3', E:TextureString(E.Media.ChatEmojis.Heart,x))
+	CH:AddSmiley('</3', E:TextureString(E.Media.ChatEmojis.BrokenHeart,x))
 end
 
 local function RepositionChatIcons()
@@ -2381,7 +2403,7 @@ function CH:HandleChatVoiceIcons(S)
 
 	hooksecurefunc(_G.GeneralDockManagerScrollFrame, 'SetPoint', function(frame, point, anchor, attachTo, x, y)
 		if anchor == _G.GeneralDockManagerOverflowButton and (x == 0 and y == 0) then
-			frame:Point(point, anchor, attachTo, -2, -6)
+			frame:Point(point, anchor, attachTo, -3, -6)
 		elseif point == "BOTTOMRIGHT" and anchor ~= channelButtons[3] and anchor ~= channelButtons[1] and not _G.GeneralDockManagerOverflowButton:IsShown() then
 			if channelButtons[3]:IsShown() then
 				frame:Point("BOTTOMRIGHT", channelButtons[3], "BOTTOMLEFT")
